@@ -1,0 +1,13 @@
+export {default as ShippingPage} from './ShippingPage'
+export {default as SignInPage} from './SignInPage'
+export {default as RegisterPage} from './RegisterPage'
+export {default as PaymentPage} from './PaymentPage'
+export {default as ProductDetailPage} from './ProductDetailPage'
+export {default as ShopPage} from './ShopPage'
+export {default as CartPage} from './CartPage'
+export {default as HomePage} from './HomePage'
+export {default as PlaceOrderPage} from './PlaceOrderPage'
+export {default as AdminProductsPage} from './AdminProductsPage'
+export {default as AdminOrdersPage} from './AdminOrdersPage'
+export {default as AdminCategoriesPage} from './AdminCategoryPage'
+
