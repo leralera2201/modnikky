@@ -17,6 +17,7 @@ const createOrder = (order) => async (dispatch, getState) => {
             }
         })
         dispatch({type: CREATE_ORDER_SUCCESS, payload: newOrder})
+
         localStorage.removeItem('cartItems')
     }catch (e) {
         dispatch({type: CREATE_ORDER_ERROR, payload: e.message})

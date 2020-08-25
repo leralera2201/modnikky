@@ -59,23 +59,28 @@ const AdminOrdersPage = () => {
                                     <tr key={order._id}>
                                         <td>{index+1}</td>
                                         <td>{order.orderItems && order.orderItems.map((item, index) => (
-                                            <tr key={index}>
-                                                <td style={{width: 200}}>
-                                                    {item.name}
-                                                </td>
-                                                <td>
-                                                    {item.qty}
-                                                </td>
-                                                <td>
-                                                    <img src={item.imageUrl} alt="" className="table-img"/>
-                                                </td>
-                                                <td className="order-product-td-min">
-                                                    {item.price} UAH
-                                                </td>
-                                                <td className="order-product-td-min">
-                                                    {item.size}
-                                                </td>
-                                            </tr>
+                                            <table key={index}>
+                                                <tbody>
+                                                <tr >
+                                                    <td style={{width: 200}}>
+                                                        {item.name}
+                                                    </td>
+                                                    <td>
+                                                        {item.qty}
+                                                    </td>
+                                                    <td>
+                                                        <img src={item.imageUrl} alt="" className="table-img"/>
+                                                    </td>
+                                                    <td className="order-product-td-min">
+                                                        {item.price} UAH
+                                                    </td>
+                                                    <td className="order-product-td-min">
+                                                        {item.size}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
                                         ))}</td>
                                         <td className="bigger-th">
                                             <div>
@@ -89,11 +94,11 @@ const AdminOrdersPage = () => {
                                             </div>
                                         </td>
                                         <td>{order.payment.paymentMethod}</td>
-                                        <td>{order.user.name} {order.user.surname}</td>
+                                        <td>{order.user ? order.user.name : ''} {order.user ? order.user.surname : ''}</td>
                                         <td>{order.itemsPrice} UAH</td>
                                         <td>{order.isPaid.toString()}</td>
                                         <td className="bigger-th">
-                                            {order.paidAt.slice(0,10)} {+(order.paidAt.slice(11, 13)) + 3}{order.paidAt.slice(13, 20)}
+                                            {order.paidAt.slice(0,10)} {+(order.paidAt.slice(11, 13)) + 3}{order.paidAt.slice(13, 19)}
                                         </td>
                                         <td className="table-center">
                                             <button className="sign-in-btn table-btn" onClick={() => deleteHandler(order._id)}>

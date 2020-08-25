@@ -31,13 +31,6 @@ const Reset = (props) => {
         setState({...state, formErrors, [name]: value });
     }
 
-    // useEffect(() => {
-    //     if(userInfo){
-    //         props.history.push(redirect)
-    //     }
-    //
-    // }, [userInfo])
-
     const submitHandler = async (e) => {
         e.preventDefault()
         if (formValid(state) && state.email) {

@@ -1350,3 +1350,19 @@ input[type="file"] {
   cursor: pointer;
   width: auto;
 }
+
+.not-found{
+  margin-top: 30px;
+  max-width: 50%;
+}
+
+.big-number{
+  font-weight: 700;
+  font-size: 140px;
+}
+
+.not-found-text{
+  letter-spacing: 1.2px;
+  font-size: 65px;
+  line-height: 80px;
+}

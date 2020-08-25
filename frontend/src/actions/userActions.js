@@ -51,6 +51,8 @@ const signUp = (email, password, name, surname) => async(dispatch) => {
 // }
 const logout = () => (dispatch) => {
     localStorage.removeItem('userInfo')
+    localStorage.removeItem('cartItems')
     dispatch({type: USER_LOGOUT})
+    dispatch({type: "REMOVE_ALL_FROM_CART"})
 }
 export {signIn, logout, signUp}

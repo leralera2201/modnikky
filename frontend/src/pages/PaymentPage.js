@@ -26,7 +26,11 @@ const PaymentPage = (props) => {
                 </div>
                 <form onSubmit={submitHandler}>
                     <input type="radio" name="paymentMethod" id="paymentMethod"  value="paypal" onChange={(e) => setPayment(e.target.value)}/>
-                    <label htmlFor="paymentMethod" className="radio-label">Paypal</label>
+                    <label htmlFor="paymentMethod" className="radio-label" >Paypal</label>
+                    <br/>
+                    <br/>
+                    <input type="radio" name="paymentMethod" id="paymentMethod"  value="card" onChange={(e) => setPayment(e.target.value)}/>
+                    <label htmlFor="paymentMethod" className="radio-label">By card</label>
                     <button type="submit" className="sign-in-btn">Continue</button>
                     {error && <div className="sign-in-error">{error}</div>}
                 </form>

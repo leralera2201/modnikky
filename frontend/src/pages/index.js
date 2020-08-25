@@ -10,4 +10,7 @@ export {default as PlaceOrderPage} from './PlaceOrderPage'
 export {default as AdminProductsPage} from './AdminProductsPage'
 export {default as AdminOrdersPage} from './AdminOrdersPage'
 export {default as AdminCategoriesPage} from './AdminCategoryPage'
+export {default as Reset} from './Reset'
+export {default as NewPassword} from './NewPassword'
+export {default as NotFound} from './NotFound'
 

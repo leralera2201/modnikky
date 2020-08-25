@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import PaypalButton from "../components/PaypalButton";
 import axios from "axios";
 import {createOrder} from "../actions/orderActions";
+import AppStripe from "./Stripe";
 
 const PlaceOrderPage = (props) => {
     const cart = useSelector(state => state.cart);
@@ -19,6 +20,8 @@ const PlaceOrderPage = (props) => {
     } else if (!payment.paymentMethod) {
         props.history.push("/payment");
     }
+
+
     const dispatch = useDispatch()
     const [amount, setAmount] = useState(0)
 
@@ -36,15 +39,16 @@ const PlaceOrderPage = (props) => {
     useEffect(() => {
         if(success){
             setMessage('Your order created successfully. Thanks for order!')
-            // setTimeout(() => {
-            //     props.history.push('/products')
-            // }, 4000)
+            setTimeout(() => {
+                props.history.push('/products')
+                dispatch({type: "REMOVE_ALL_FROM_CART"})
+            }, 4000)
         }else{
             setMessage('')
         }
-    }, [success])
+    }, [success])// eslint-disable-line react-hooks/exhaustive-deps
 
-    const onSuccessHandler = (paymentResult) => {
+    const onSuccessHandler = (paymentResult = {}) => {
         const newCartItems = cartItems.map(cartItem => {
             return {
                 name: cartItem.name,
@@ -58,8 +62,6 @@ const PlaceOrderPage = (props) => {
         dispatch(createOrder({
             orderItems: newCartItems, shipping, payment, itemsPrice, paymentResult
         }));
-
-
     }
     return (
         <div className="pt120">
@@ -130,12 +132,18 @@ const PlaceOrderPage = (props) => {
                         }
                     </div>
                 </div>
+                <div className="paypal">
                 {cartItems.length &&
-                    <div className="paypal">
-                        <PaypalButton amount={+(amount.toFixed(2))} onSuccess={onSuccessHandler}/>
-                        {message && <div className="sign-in-success">{message}</div>}
-                    </div>
+
+                (payment.paymentMethod === 'paypal' ?
+                    <PaypalButton amount={+(amount.toFixed(2))} onSuccess={onSuccessHandler}/>
+                    :
+                    <AppStripe amount={+(amount.toFixed(2))} onSuccessHandler={onSuccessHandler} status={message}/>
+                )
+
                 }
+                {message && <div className="sign-in-success">{message}</div>}
+                </div>
             </div>
         </div>
     )

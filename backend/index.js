@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const config = require('./config')
 const dotenv = require('dotenv')
 const path = require('path')
-
+const stripe = require('stripe')(config.SPRIPE_SKgit );
 
 
 dotenv.config()
@@ -23,6 +23,22 @@ app.use(function(req, res, next) {
     next();
 });
 app.use(bodyParser.json())
+
+app.post('/charge', (req, res) => {
+    const amount = Math.round(req.body.amount) * 100
+    stripe.customers.create({
+        // email: req.body.token.email,
+        source: req.body.token
+    })
+        .then(customer => stripe.charges.create({
+            amount,
+            description: 'Web Development Ebook',
+            currency: 'usd',
+            customer: customer.id
+        }))
+        .then(result => res.status(200).json(result))
+        .catch(err => res.status(402).json({error: err.message}));
+});
 
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/categories', require('./routes/categoryRoutes'))

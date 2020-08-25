@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, Route} from 'react-router-dom'
+import {Link, Switch, Route} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "./actions/userActions";
 import {
@@ -13,14 +13,12 @@ import {
     ProductDetailPage,
     PaymentPage,
     AdminProductsPage, AdminOrdersPage,
-    AdminCategoriesPage
+    AdminCategoriesPage,
+    Reset,
+    NewPassword, NotFound
 } from "./pages";
-import Reset from "./pages/Reset";
-import NewPassword from "./pages/NewPassword";
-
 
 function App() {
-
     const userSignIn = useSelector(state=> state.userSignIn)
     const{userInfo} = userSignIn
     const cart = useSelector( state => state.cart)
@@ -71,23 +69,24 @@ function App() {
               </div>
           </div>
       </header>
-        <>
-        <Route path={'/'} exact component={HomePage}/>
-        <Route path={'/products'} exact component={ShopPage}/>
-        <Route path={'/admin/products'} exact component={AdminProductsPage}/>
-        <Route path={'/admin/categories'} exact component={AdminCategoriesPage}/>
-        <Route path={'/admin/orders'} exact component={AdminOrdersPage}/>
-        <Route path={'/cart'} exact component={CartPage}/>
-        <Route path={'/shipping'} exact component={ShippingPage}/>
-        <Route path={'/placeorder'} exact component={PlaceOrderPage}/>
-        <Route path={'/payment'} exact component={PaymentPage}/>
-        <Route path={'/category/:id'} exact component={ShopPage}/>
-        <Route path={'/products/:id'} exact component={ProductDetailPage}/>
-        <Route path={'/signin'} exact component={SignInPage}/>
-        <Route path={'/reset'} exact component={Reset}/>
-        <Route path={'/reset/:id'} exact component={NewPassword}/>
-        <Route path={'/register'} exact component={RegisterPage}/>
-        </>
+        <Switch>
+            <Route path={'/'} exact component={HomePage}/>
+            <Route path={'/products'} exact component={ShopPage}/>
+            <Route path={'/admin/products'} exact component={AdminProductsPage}/>
+            <Route path={'/admin/categories'} exact component={AdminCategoriesPage}/>
+            <Route path={'/admin/orders'} exact component={AdminOrdersPage}/>
+            <Route path={'/cart'} exact component={CartPage}/>
+            <Route path={'/shipping'} exact component={ShippingPage}/>
+            <Route path={'/placeorder'} exact component={PlaceOrderPage}/>
+            <Route path={'/payment'} exact component={PaymentPage}/>
+            <Route path={'/category/:id'} exact component={ShopPage}/>
+            <Route path={'/products/:id'} exact component={ProductDetailPage}/>
+            <Route path={'/signin'} exact component={SignInPage}/>
+            <Route path={'/reset'} exact component={Reset}/>
+            <Route path={'/reset/:id'} exact component={NewPassword}/>
+            <Route path={'/register'} exact component={RegisterPage}/>
+            <Route component={NotFound} />
+        </Switch>
 
      <footer className="footer">
          <div className="container">

@@ -19,6 +19,8 @@ const cartReducer = (state = {cartItems: [], shipping: {}, payment: {}}, action)
             return {...state, shipping: action.payload}
         case CART_SAVE_PAYMENT:
             return {...state, payment: action.payload}
+        case "REMOVE_ALL_FROM_CART":
+            return {...state, cartItems: []}
         default:
             return state
     }
