@@ -6,13 +6,12 @@ import axios from 'axios'
 import {formValid} from '../validation'
 
 
-const AdminProductsPage = () => {
+const AdminProductsPage = (props) => {
     const [state, setState] = useState({
         name: '',
         id: '',
         description: '',
         isActive: true,
-        imageUrl: '',
         price: '',
         brand: '',
         color: '',
@@ -47,6 +46,13 @@ const AdminProductsPage = () => {
     const {success: successDelete} = productDelete;
 
     const [file, setFile] = useState(null);
+    const [image, setImage] = useState('');
+
+    useEffect(() => {
+        if(error === 'Invalid Admin Token'){
+            props.history.push('/')
+        }
+    }, [error])
 
     useEffect(() => {
         if (successSave) {
@@ -107,11 +113,11 @@ const AdminProductsPage = () => {
     const openModal = (product=null) => {
         setModal(true);
         if(product){
+            setImage(product.imageUrl)
             setState({...state,
                 id: product._id,
                 name: product.name,
                 description: product.description,
-                imageUrl: product.imageUrl,
                 price: product.price,
                 countInStock: product.countInStock,
                 brand: product.brand,
@@ -121,11 +127,11 @@ const AdminProductsPage = () => {
                 isActive: product.isActive
             })
         }else{
+            setImage('')
             setState({...state,
                 id: '',
                 name: '',
                 description: '',
-                imageUrl: '',
                 price: '',
                 countInStock: '',
                 brand: '',
@@ -137,40 +143,73 @@ const AdminProductsPage = () => {
         }
 
     }
+    // const onChange = (e) => {
+    //     setFile(e.target.files[0]);
+    //     setState({...state, imageUrl: ''})
+    // }
     const onChange = (e) => {
         setFile(e.target.files[0]);
-        setState({...state, imageUrl: ''})
+        setImage('')
     }
     const submitHandler = async(e) => {
         e.preventDefault()
         if(file){
-            if (formValid(state) && state.name && state.category && state.price && state.color && state.sizes &&state.countInStock){
-                const formData = new FormData();
-                formData.append('myImage', file);
-                const config = {
-                    headers: {
-                        'content-type': 'multipart/form-data'
-                    }
-                };
+            if (formValid(state)){
                 try{
-                    const {data} = await axios.post("http://localhost:5000/api/uploads",formData,config)
-                    dispatchSaveProduct(data)
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('upload_preset', 'restaurant');
+                    formData.append('cloud_name', 'lera-cloud-storage');
+                    const uploadData = await axios.post('https://api.cloudinary.com/v1_1/lera-cloud-storage/image/upload', formData)
+                    dispatchSaveProduct(uploadData.data.url)
                     setMessage('')
                 }catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }else {
                 setMessage('Please, add all data')
+                console.log(state)
             }
         }else{
-            if (formValid(state) && state.id && state.name && state.category && state.price && state.color && state.sizes &&state.countInStock){
-                dispatchSaveProduct(state.imageUrl)
+            if (formValid(state) && image){
+                dispatchSaveProduct(image)
                 setMessage('')
             }else {
                 setMessage('Please, add all data')
+
             }
         }
     }
+    // const submitHandler = async(e) => {
+    //     e.preventDefault()
+    //     if(file){
+    //         if (formValid(state) && state.name && state.category && state.price && state.color && state.sizes && state.countInStock){
+    //             const formData = new FormData();
+    //             formData.append('myImage', file);
+    //             const config = {
+    //                 headers: {
+    //                     'content-type': 'multipart/form-data'
+    //                 }
+    //             };
+    //             try{
+    //                 const {data} = await axios.post("http://localhost:5000/api/uploads",formData,config)
+    //                 dispatchSaveProduct(data)
+    //                 setMessage('')
+    //             }catch (e) {
+    //                 console.log(e);
+    //             }
+    //         }else {
+    //             setMessage('Please, add all data')
+    //         }
+    //     }else{
+    //         if (formValid(state) && state.id && state.name && state.category && state.price && state.color && state.sizes &&state.countInStock){
+    //             dispatchSaveProduct(state.imageUrl)
+    //             setMessage('')
+    //         }else {
+    //             setMessage('Please, add all data')
+    //         }
+    //     }
+    // }
     const dispatchSaveProduct = (img) => {
         dispatch(saveProduct({
             _id: state.id,
@@ -230,7 +269,7 @@ const AdminProductsPage = () => {
                             {file ? file.name : 'Upload file'}
                         </label>
                         <input id="file-upload" type="file" name="myImage" onChange= {onChange} />
-                        {state.imageUrl && <img src={state.imageUrl} alt="" style={{maxWidth: '200px', margin: '20px 0', display: 'block'}}/>}
+                        {image && <img src={image} alt="" style={{maxWidth: '200px', margin: '20px 0', display: 'block'}}/>}
                         <label htmlFor="brand" className="label">Brand</label>
                         <input
                             type="text"

@@ -44,7 +44,6 @@ const ShopPage = (props) => {
 
     const [check, setCheck] = useState(szObj)
     const [colorCheck, setColorCheck] = useState(clObj)
-    // const [selectedOptions, setSelectedOptions] = useState([])
 
     const filterHandler = (e) => {
         const subtitle = e.target
@@ -67,22 +66,10 @@ const ShopPage = (props) => {
 
     }
 
-    // const colorHandler = (selOpt) => {
-    //     let arrColors = []
-    //     for(let obj of selOpt) {
-    //         arrColors.push(obj.value.toLowerCase())
-    //     }
-    //     if(arrColors.includes('all')) {
-    //         setSelectedOptions(['all'])
-    //     }else{
-    //         setSelectedOptions(arrColors);
-    //     }
-    //
-    // }
+
     const priceHandler = (value) => {
         setValue(value)
     }
-
 
     const getResult = () => {
         const sizesResult = []
@@ -198,7 +185,7 @@ const ShopPage = (props) => {
                                                 {error && <div className="sign-in-error">{error}</div>}
                                             </div>
                                             <div className="products-inner">
-                                                {products.length ? currentProducts.map(product => (
+                                                {currentProducts.length > 0 ? currentProducts.map(product => (
                                                         <div className="product" key={product._id}>
                                                             <Link to={'/products/' + product._id} className="product__link">
                                                                 <img src={product.imageUrl} className="product__img" alt="Product"/>
@@ -208,7 +195,6 @@ const ShopPage = (props) => {
                                                         </div>
                                                     )) :
                                                     !loading && <div className="product__title" >There are no products for this criteria:(</div>
-
                                                 }
 
                                             </div>

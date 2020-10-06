@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteOrder, listOrders} from "../actions/orderActions";
 
-const AdminOrdersPage = () => {
+const AdminOrdersPage = (props) => {
 
     // const [sortOrder, setSortOrder] = useState('')
     // const [searchKeyword, setSearchKeyword] = useState('')
@@ -14,6 +14,12 @@ const AdminOrdersPage = () => {
     const dispatch = useDispatch()
     const orderDelete = useSelector(state => state.orderDelete);
     const {success: successDelete} = orderDelete;
+
+    useEffect(() => {
+        if(error === 'Invalid Admin Token'){
+            props.history.push('/')
+        }
+    }, [error])
 
     useEffect(() => {
         dispatch(listOrders())
